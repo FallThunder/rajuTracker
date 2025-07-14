@@ -146,15 +146,19 @@ function enterConfirmationState(action, button) {
     // Set confirmation state
     confirmationState = action;
     
-    // Update the clicked button
-    button.innerHTML = '👆 Click Again to Confirm';
+    // First, start the background color transition
     button.style.backgroundColor = '#FF9800';
     
-    // Disable other buttons
+    // After a brief delay, change the text to allow smooth transition
+    setTimeout(() => {
+        button.innerHTML = '👆 Click Again to Confirm';
+    }, 100);
+    
+    // Gradually disable other buttons
     const allButtons = document.querySelectorAll('.medication-button, .walking-button');
     allButtons.forEach(btn => {
         if (btn !== button) {
-            btn.style.opacity = '0.5';
+            btn.style.opacity = '0.4';
             btn.style.pointerEvents = 'none';
         }
     });
@@ -233,13 +237,21 @@ async function confirmWalking(ability, button) {
 
 // Reset all buttons to their original state
 function resetAllButtons() {
+    // First, re-enable all buttons and restore opacity
+    const allButtons = document.querySelectorAll('.medication-button, .walking-button');
+    allButtons.forEach(btn => {
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+    });
+    
     // Reset medication button
     const medicationBtn = document.querySelector('.medication-button');
     if (medicationBtn) {
-        medicationBtn.innerHTML = originalButtonStates['medication'];
-        medicationBtn.style.opacity = '1';
-        medicationBtn.style.pointerEvents = 'auto';
         medicationBtn.style.backgroundColor = '#4CAF50';
+        // Delay text change slightly for smoother transition
+        setTimeout(() => {
+            medicationBtn.innerHTML = originalButtonStates['medication'];
+        }, 50);
     }
     
     // Reset walking buttons
@@ -249,11 +261,7 @@ function resetAllButtons() {
         const ability = abilities[index];
         const stateKey = `walking-${ability}`;
         
-        btn.innerHTML = originalButtonStates[stateKey];
-        btn.style.opacity = '1';
-        btn.style.pointerEvents = 'auto';
-        
-        // Reset to original colors
+        // Reset to original colors first
         if (ability === 'difficult') {
             btn.style.backgroundColor = '#f44336';
         } else if (ability === 'okay') {
@@ -261,5 +269,10 @@ function resetAllButtons() {
         } else if (ability === 'good') {
             btn.style.backgroundColor = '#4CAF50';
         }
+        
+        // Then reset text with slight delay
+        setTimeout(() => {
+            btn.innerHTML = originalButtonStates[stateKey];
+        }, 50);
     });
 }

@@ -37,6 +37,7 @@ h1 {
     border-radius: 18px;
     height: 150px;
     width: 100%;
+    transition: all 0.3s ease;
 }
 
 .medication-button:hover {
@@ -59,6 +60,7 @@ h1 {
     justify-content: center;
     white-space: normal;
     word-wrap: break-word;
+    transition: all 0.3s ease;
 }
 
 .walking-difficult {
