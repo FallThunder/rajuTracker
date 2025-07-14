@@ -2,7 +2,7 @@
   "name": "Medication Check-in",
   "short_name": "Med Check",
   "description": "Daily medication and walking status tracker",
-  "start_url": "./",
+  "start_url": "index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f5f5f5",
