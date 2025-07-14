@@ -212,4 +212,4 @@ This project is for personal/family use. Feel free to adapt for your own family'
 
 ## 💝 Dedication
 
-Built with love for Raju, to help keep track of daily health in the simplest way possible. 👴💊🚶‍♂️
+Built with love for my grandad, to help keep track of daily health in the simplest way possible.
