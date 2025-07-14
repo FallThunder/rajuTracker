@@ -3,6 +3,17 @@
 // API Configuration
 const API_ENDPOINT = 'https://raju-tracker-log-health-y37npbde7q-ue.a.run.app';
 
+// Double-click confirmation state variables
+let confirmationState = null;
+let confirmationTimeout = null;
+
+const originalButtonStates = {
+    'medication': '💊 I Took My Medication',
+    'walking-difficult': '🚶‍♂️ Walking is Difficult',
+    'walking-okay': '🚶‍♂️ Walking is Okay',
+    'walking-good': '🚶‍♂️ Walking is Good'
+};
+
 // Generate timestamp when page loads
 function generateTimestamp() {
     const now = new Date();
@@ -93,8 +104,76 @@ function goBack() {
     window.location.href = 'index.html';
 }
 
-// Report medication - now calls API before navigation
-async function reportMedication() {
+// Report medication - with double-click confirmation
+function reportMedication() {
+    const button = event.target;
+    
+    if (confirmationState === 'medication') {
+        // Second click - confirm medication
+        confirmMedication(button);
+        return;
+    }
+    
+    // First click - enter confirmation state
+    enterConfirmationState('medication', button);
+}
+
+// Report walking sentiment - with double-click confirmation
+function reportWalking(ability) {
+    const button = event.target;
+    const stateKey = `walking-${ability}`;
+    
+    if (confirmationState === stateKey) {
+        // Second click - confirm walking ability
+        confirmWalking(ability, button);
+        return;
+    }
+    
+    // First click - enter confirmation state
+    enterConfirmationState(stateKey, button);
+}
+
+// Enter confirmation state for any button
+function enterConfirmationState(action, button) {
+    // Clear any existing timeout
+    if (confirmationTimeout) {
+        clearTimeout(confirmationTimeout);
+    }
+    
+    // Reset all buttons first
+    resetAllButtons();
+    
+    // Set confirmation state
+    confirmationState = action;
+    
+    // Update the clicked button
+    button.innerHTML = '👆 Click Again to Confirm';
+    button.style.backgroundColor = '#FF9800';
+    
+    // Disable other buttons
+    const allButtons = document.querySelectorAll('.medication-button, .walking-button');
+    allButtons.forEach(btn => {
+        if (btn !== button) {
+            btn.style.opacity = '0.5';
+            btn.style.pointerEvents = 'none';
+        }
+    });
+    
+    // Set timeout to revert after 2 seconds
+    confirmationTimeout = setTimeout(() => {
+        resetAllButtons();
+        confirmationState = null;
+    }, 2000);
+}
+
+// Confirm medication with API call
+async function confirmMedication(button) {
+    // Clear timeout
+    if (confirmationTimeout) {
+        clearTimeout(confirmationTimeout);
+    }
+    
+    // Prepare API data
     const apiData = generateAPITimestamp();
     const medicationData = {
         logType: 'medication',
@@ -104,34 +183,83 @@ async function reportMedication() {
     
     console.log('Logging medication:', medicationData);
     
+    // Make API call
     const result = await logHealthData(medicationData);
     
     if (result.success) {
         console.log('Medication logged successfully');
+        // Navigate directly to medication confirmation page
         window.location.href = 'medication.html';
     } else {
         showError(result.error);
+        // Reset buttons on error
+        resetAllButtons();
+        confirmationState = null;
     }
 }
 
-// Report walking sentiment - now calls API before navigation
-async function reportWalking(status) {
+// Confirm walking ability with API call
+async function confirmWalking(ability, button) {
+    // Clear timeout
+    if (confirmationTimeout) {
+        clearTimeout(confirmationTimeout);
+    }
+    
+    // Prepare API data
     const apiData = generateAPITimestamp();
     const sentimentData = {
         logType: 'sentiment',
         timestamp: apiData.timestamp,
         date: apiData.date,
-        status: status
+        status: ability
     };
     
     console.log('Logging walking sentiment:', sentimentData);
     
+    // Make API call
     const result = await logHealthData(sentimentData);
     
     if (result.success) {
         console.log('Walking sentiment logged successfully');
-        window.location.href = `walking.html?status=${status}`;
+        // Navigate directly to walking confirmation page with status parameter
+        window.location.href = `walking.html?status=${ability}`;
     } else {
         showError(result.error);
+        // Reset buttons on error
+        resetAllButtons();
+        confirmationState = null;
     }
+}
+
+// Reset all buttons to their original state
+function resetAllButtons() {
+    // Reset medication button
+    const medicationBtn = document.querySelector('.medication-button');
+    if (medicationBtn) {
+        medicationBtn.innerHTML = originalButtonStates['medication'];
+        medicationBtn.style.opacity = '1';
+        medicationBtn.style.pointerEvents = 'auto';
+        medicationBtn.style.backgroundColor = '#4CAF50';
+    }
+    
+    // Reset walking buttons
+    const walkingButtons = document.querySelectorAll('.walking-button');
+    walkingButtons.forEach((btn, index) => {
+        const abilities = ['difficult', 'okay', 'good'];
+        const ability = abilities[index];
+        const stateKey = `walking-${ability}`;
+        
+        btn.innerHTML = originalButtonStates[stateKey];
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        
+        // Reset to original colors
+        if (ability === 'difficult') {
+            btn.style.backgroundColor = '#f44336';
+        } else if (ability === 'okay') {
+            btn.style.backgroundColor = '#ff9800';
+        } else if (ability === 'good') {
+            btn.style.backgroundColor = '#4CAF50';
+        }
+    });
 }
