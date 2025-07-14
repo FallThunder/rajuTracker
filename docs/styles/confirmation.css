@@ -1,0 +1,122 @@
+/* Confirmation page specific styles */
+.container {
+    align-items: center;
+    padding: 20px;
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+}
+
+.success-icon {
+    font-size: 5em;
+    margin-bottom: 30px;
+    animation: checkmark 0.6s ease-in-out;
+}
+
+@keyframes checkmark {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.success-message {
+    color: #4CAF50;
+    font-size: 2.8em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.timestamp {
+    color: #666;
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    background-color: #e8f5e8;
+    padding: 15px 25px;
+    border-radius: 10px;
+    border: 2px solid #4CAF50;
+}
+
+.back-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 25px 50px;
+    font-size: 1.8em;
+    border-radius: 15px;
+    min-height: 80px;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}
+
+.back-button:active {
+    background-color: #3e8e41;
+}
+
+.auto-return {
+    color: #888;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+/* Status-specific styling for walking page */
+.status-difficult .success-message {
+    color: #f44336;
+}
+
+.status-okay .success-message {
+    color: #ff9800;
+}
+
+.status-good .success-message {
+    color: #4CAF50;
+}
+
+.status-difficult .timestamp {
+    background-color: #ffebee;
+    border-color: #f44336;
+}
+
+.status-okay .timestamp {
+    background-color: #fff3e0;
+    border-color: #ff9800;
+}
+
+.status-good .timestamp {
+    background-color: #e8f5e8;
+    border-color: #4CAF50;
+}
+
+/* Mobile optimizations for confirmation pages */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .success-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+    }
+    
+    .success-message {
+        font-size: 2.4em;
+        margin-bottom: 15px;
+    }
+    
+    .timestamp {
+        font-size: 1.3em;
+        margin-bottom: 30px;
+        padding: 12px 20px;
+    }
+    
+    .back-button {
+        padding: 20px 40px;
+        font-size: 1.6em;
+        min-height: 70px;
+    }
+    
+    .auto-return {
+        font-size: 1.1em;
+    }
+}

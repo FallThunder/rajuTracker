@@ -1,0 +1,122 @@
+/* Main page specific styles */
+h1 {
+    color: #333;
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.separator {
+    width: 60%;
+    height: 2px;
+    background-color: #ddd;
+    margin: 20px auto;
+    border-radius: 1px;
+}
+
+.walking-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+.medication-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 40px 35px;
+    font-size: 2.1em;
+    border-radius: 18px;
+    height: 150px;
+    width: 100%;
+}
+
+.medication-button:hover {
+    background-color: #45a049;
+}
+
+.medication-button:active {
+    background-color: #3e8e41;
+}
+
+.walking-button {
+    color: white;
+    padding: 40px 35px;
+    font-size: 2.1em;
+    border-radius: 18px;
+    height: 150px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.walking-difficult {
+    background-color: #f44336;
+}
+
+.walking-difficult:hover {
+    background-color: #d32f2f;
+}
+
+.walking-okay {
+    background-color: #ff9800;
+}
+
+.walking-okay:hover {
+    background-color: #f57c00;
+}
+
+.walking-good {
+    background-color: #4CAF50;
+}
+
+.walking-good:hover {
+    background-color: #45a049;
+}
+
+/* Mobile responsive styles for main page */
+@media (max-width: 480px) {
+    .medication-button {
+        padding: 35px 30px;
+        font-size: 1.9em;
+        height: 130px;
+    }
+    
+    .separator {
+        margin: 15px auto;
+    }
+    
+    h1 {
+        font-size: 2.4em;
+        margin-bottom: 15px;
+    }
+    
+    .button-container {
+        gap: 10px;
+    }
+    
+    .walking-buttons {
+        gap: 8px;
+    }
+    
+    .walking-button {
+        padding: 35px 30px;
+        font-size: 1.9em;
+        height: 130px;
+        width: 100%;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+}
